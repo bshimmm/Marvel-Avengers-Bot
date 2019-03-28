@@ -76,8 +76,80 @@ Tweepy docs: http://docs.tweepy.org/en/3.7.0/
 """
 
 def main():
+	get_e1()
+	search = get_e1()
+
+	get_e2()
+	numOfTweets = get_e2()
+	numOfTweets = int(numOfTweets)
+
+	get_e3()
+	response = get_e3()
+
+	get_e4()
+	reply = get_e4()
+
+	get_e5()
+	retweet = get_e5()
+
+	get_e6()
+	favorite = get_e6()
+
+	get_e7()
+	follow = get_e7()
+
 	if reply == "yes":
-		for tweet in tweepy.Cursor(api.search, search).items(numberOfTweets):
+		for tweet in tweepy.Cursor(api.search, search).items(numOfTweets):
 			try:
+				print('\nTweet by: @' + tweet.user.screen_name)
+				print('Twitter ID: @' + str(tweet.user.id))
 				tweetId = tweet.user.id
-				username = tweet.user.
+				username = tweet.user.screen_name
+				api.update_status("@" + username + " " + phrase, in_reply_to_status_id = tweetId)
+				print("Replied with " + phrase)
+
+			except tweepy.TweepError as e:
+				print(e.reason)
+
+			except StopIteration:
+				break
+
+	if retweet == "yes":
+		for tweet in tweepy.Cursor(api.search, search).items(numOfTweets):
+			try:
+				tweet.retweet()
+				print('Retweeted the tweet')
+
+			except tweepy.TweepError as e:
+				print(e.reason)
+
+			except StopIteration:
+				break
+
+	if favorite == "yes":
+		for tweet in tweepy.Cursor(api.search, search).items(numOfTweets):
+			try:
+				tweet.favorite()
+				print('Favorited the tweet')
+
+			except tweepy.TweepError as e:
+				print(e.reason)
+
+			except StopIteration:
+				break
+
+	if follow == "yes":
+		for tweet in tweepy.Cursor(api.search, search).items(numOfTweets):
+			try:
+				tweet.user.follow()
+				print('Followed the twitter user')
+
+			except tweepy.TweepError as e:
+				print(e.reason)
+
+			except StopIteration:
+				break
+
+submit = Button(master, text = "Submit", command = main)
+
+
