@@ -1,0 +1,83 @@
+import tweepy
+from tkinter import *
+
+consumer_key = 'AhvCZn4meETltBcQsYNrFk4nw'
+consumer_secret = 'goGUdUb3Z8VgUE8cygqTEAdflQ5TZVe9R8pBuZzy7bg6XdsMoy'
+access_token = '1110252920770043908-LaqSnBj6qJ2SqSQLbEMEqRYbjVEj8l'
+access_token_secret = 'Md2HdObyXGUe33LIhPfVCm22edx68Wnj7ElZRmCLbewL3'
+
+auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+auth.set_access_token(access_token, access_token_secret)
+api = tweepy.API(auth)
+
+user = api.me()
+print (user.name)
+print (user.location)
+
+"""
+Looping through the account's followers and following each one back
+"""
+for follower in tweepy.Cursor(api.followers).items():
+	follower.follow()
+	print("Followed everyone that is following " + user.name)
+
+"""
+Creating a GUI application that will take our inputs of the keyword we would like to search for and favorite the tweet
+"""
+root = Tk()
+label_1 = Label(master, text="Search").grid(row=0)
+label_2 = Label(master, text="# of Tweets").grid(row=1)
+label_3 = Label(master, text="Response").grid(row=2)
+label_4 = Label(master, text="Reply").grid(row=3)
+label_5 = Label(master, text="Retweet").grid(row=4)
+label_6 = Label(master, text="Favorite").grid(row=5)
+label_7 = Label(master, text="Follow").grid(row=6)
+
+e1 = Entry(master)
+e2 = Entry(master)
+e3 = Entry(master)
+e4 = Entry(master)
+e5 = Entry(master)
+e6 = Entry(master)
+e7 = Entry(master)
+
+e1.grid(row=0, column = 1)
+e2.grid(row=1, column = 1)
+e3.grid(row=2, column = 1)
+e4.grid(row=3, column = 1)
+e5.grid(row=4, column = 1)
+e6.grid(row=5, column = 1)
+e7.grid(row=6, column = 1)
+
+def get_e1():
+	return e1.get()
+
+def get_e2():
+	return e2.get()
+
+def get_e3():
+	return e3.get()
+
+def get_e4():
+	return e4.get()
+
+def get_e5():
+	return e5.get()
+
+def get_e6():
+	return e6.get()
+
+def get_e7():
+	return e7.get()
+
+"""
+This program is a twitter bot to favorite and reply to tweets that mention certain keywords
+Tweepy docs: http://docs.tweepy.org/en/3.7.0/
+"""
+
+def main():
+	if reply == "yes":
+		for tweet in tweepy.Cursor(api.search, search).items(numberOfTweets):
+			try:
+				tweetId = tweet.user.id
+				username = tweet.user.
