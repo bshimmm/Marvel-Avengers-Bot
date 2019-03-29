@@ -1,4 +1,6 @@
 import tweepy
+import time
+import os
 from tkinter import *
 
 consumer_key = 'AhvCZn4meETltBcQsYNrFk4nw'
@@ -11,43 +13,49 @@ auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth)
 
 user = api.me()
-print (user.name)
-print (user.location)
+print(user.name)
 
 """
 Looping through the account's followers and following each one back
 """
 for follower in tweepy.Cursor(api.followers).items():
 	follower.follow()
-	print("Followed everyone that is following " + user.name)
+	
+print("Followed everyone that is following " + user.name)
 
 """
 Creating a GUI application that will take our inputs of the keyword we would like to search for and favorite the tweet
 """
+
 root = Tk()
-label_1 = Label(master, text="Search").grid(row=0)
-label_2 = Label(master, text="# of Tweets").grid(row=1)
-label_3 = Label(master, text="Response").grid(row=2)
-label_4 = Label(master, text="Reply").grid(row=3)
-label_5 = Label(master, text="Retweet").grid(row=4)
-label_6 = Label(master, text="Favorite").grid(row=5)
-label_7 = Label(master, text="Follow").grid(row=6)
+label_1 = Label(root, text="Search")
+#label_1.grid(row=0)
+e1 = Entry(root, bd = 4)
 
-e1 = Entry(master)
-e2 = Entry(master)
-e3 = Entry(master)
-e4 = Entry(master)
-e5 = Entry(master)
-e6 = Entry(master)
-e7 = Entry(master)
+label_2 = Label(root, text="# of Tweets")
+#label_2.grid(row=1)
+e2 = Entry(root, bd = 4)
 
-e1.grid(row=0, column = 1)
-e2.grid(row=1, column = 1)
-e3.grid(row=2, column = 1)
-e4.grid(row=3, column = 1)
-e5.grid(row=4, column = 1)
-e6.grid(row=5, column = 1)
-e7.grid(row=6, column = 1)
+label_3 = Label(root, text="Response")
+#label_3.grid(row=2)
+e3 = Entry(root, bd = 4)
+
+label_4 = Label(root, text="Reply")
+#label_4.grid(row=3)
+e4 = Entry(root, bd = 4)
+
+label_5 = Label(root, text="Retweet")
+#label_5.grid(row=4)
+e5 = Entry(root, bd = 4)
+
+label_6 = Label(root, text="Favorite")
+#label_6.grid(row=5)
+e6 = Entry(root, bd = 4)
+
+label_7 = Label(root, text="Follow")
+#label_7.grid(row=6)
+e7 = Entry(root, bd = 4)
+
 
 def get_e1():
 	return e1.get()
@@ -69,6 +77,10 @@ def get_e6():
 
 def get_e7():
 	return e7.get()
+
+
+
+
 
 """
 This program is a twitter bot to favorite and reply to tweets that mention certain keywords
@@ -105,8 +117,8 @@ def main():
 				print('Twitter ID: @' + str(tweet.user.id))
 				tweetId = tweet.user.id
 				username = tweet.user.screen_name
-				api.update_status("@" + username + " " + phrase, in_reply_to_status_id = tweetId)
-				print("Replied with " + phrase)
+				api.update_status("@" + username + " " + response, in_reply_to_status_id = tweetId)
+				print("Replied with " + response)
 
 			except tweepy.TweepError as e:
 				print(e.reason)
@@ -150,6 +162,30 @@ def main():
 			except StopIteration:
 				break
 
-submit = Button(master, text = "Submit", command = main)
+submit = Button(root, text = "Submit", command = main)
 
+label_1.pack()
+e1.pack()
+
+label_2.pack()
+e2.pack()
+
+label_3.pack()
+e3.pack()
+
+label_4.pack()
+e4.pack()
+
+label_5.pack()
+e5.pack()
+
+label_6.pack()
+e6.pack()
+
+label_7.pack()
+e7.pack()
+
+submit.pack(side=BOTTOM)
+
+root.mainloop()
 
